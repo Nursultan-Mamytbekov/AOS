@@ -33,7 +33,8 @@ namespace AOS.Pages.Events
         {
             if (Id == null) return NotFound();
             var file = _context.Materials.FirstOrDefault(p => p.Id == Id);
-            return File(file.File, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "asd.zip");
+            if (file == null) return NotFound();
+            return File(file.File, file.ContentType, file.FileName + file.FileExtension);
         }
     }
 }

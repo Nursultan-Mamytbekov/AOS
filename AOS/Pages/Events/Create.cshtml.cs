@@ -15,6 +15,9 @@ namespace AOS.Pages.Events
     {
         private readonly ApplicationDbContext _context;
 
+        [BindProperty]
+        public MaterialViewModel Material { get; set; }
+
         public CreateModel(ApplicationDbContext context)
         {
             _context = context;
@@ -26,26 +29,27 @@ namespace AOS.Pages.Events
             return Page();
         }
 
-        [BindProperty]
-        public MaterialViewModel Material { get; set; }
-
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
+
             var material = new Material()
             {
-                Name = Material.Name,
+                FileName = Path.GetFileNameWithoutExtension(Material.File.FileName),
+                FileExtension = Path.GetExtension(Material.File.FileName),
                 IsActive = Material.IsActive,
-                SubjectId = Material.SubjectId
+                SubjectId = Material.SubjectId,
+                ContentType = Material.File.ContentType
             };
+
             using (var reader = new BinaryReader(Material.File.OpenReadStream()))
             {
                 material.File = reader.ReadBytes((int)Material.File.Length);
             }
+
             _context.Materials.Add(material);
             await _context.SaveChangesAsync();
 
