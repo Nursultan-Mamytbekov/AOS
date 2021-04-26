@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using AOS.Data;
 using AOS.Models;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AOS.Pages.Events
 {
+    [Authorize]
     public class CreateModel : PageModel
     {
         private readonly ApplicationDbContext _context;
@@ -47,7 +49,10 @@ namespace AOS.Pages.Events
 
             using (var reader = new BinaryReader(Material.File.OpenReadStream()))
             {
-                material.File = reader.ReadBytes((int)Material.File.Length);
+                material.File = new AOS.Data.File
+                {
+                    Data = reader.ReadBytes((int)Material.File.Length)
+                };
             }
 
             _context.Materials.Add(material);

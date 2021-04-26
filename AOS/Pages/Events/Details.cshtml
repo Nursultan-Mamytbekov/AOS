@@ -1,0 +1,44 @@
+﻿@page
+@model AOS.Pages.Events.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<div class="container">
+    <h1>События</h1>
+    <div>
+        <table class="table table-bordered">
+            <tr>
+                <th class="w-25">@Html.DisplayNameFor(model => model.Material.CreatedAt)</th>
+                <td>@Html.DisplayFor(model => model.Material.CreatedAt)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Material.FileName)</th>
+                <td>@Html.DisplayFor(model => model.Material.FileName)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Material.FileExtension)</th>
+                <td>@Html.DisplayFor(model => model.Material.FileExtension)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Material.IsActive)</th>
+                <td>@Html.DisplayFor(model => model.Material.IsActive)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Material.Subject)</th>
+                <td>@Html.DisplayFor(model => model.Material.Subject.Name)</td>
+            </tr>
+        </table>
+    </div>
+    <div class="d-flex">
+        <a asp-page="./Index" class="btn btn-secondary mr-3">Назад</a>
+        <a asp-page="./Delete" asp-route-id="@Model.Material.Id" class="btn btn-danger mr-3">Удалить</a> 
+        <a asp-page="./Edit" asp-route-id="@Model.Material.Id" class="btn btn-primary mr-3">Изменить</a> 
+        <form method="post">
+            <input type="hidden" asp-for="Id" value="@Model.Material.Id" />
+            <button type="submit" class="btn btn-success">Скачать</button>
+        </form>
+    </div>
+</div>

@@ -1,19 +1,31 @@
 ﻿@page
 @model AOS.Pages.Events.IndexModel
+@inject UserManager<IdentityUser> userManager
 
 @{
+    var user = await userManager.GetUserAsync(User);
+    bool isTeacher = await userManager.IsInRoleAsync(user, "teacher");
+    bool isStudent = await userManager.IsInRoleAsync(user, "student");
     ViewData["Title"] = "Index";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1>События</h1>
-    <a asp-page="./Create" class="btn btn-info btn-lg">Загрузить файл</a>
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>События</h1>
+        @if (isTeacher)
+        {
+            <a asp-page="./Create" class="btn btn-info btn-lg">Загрузить файл</a>
+        }
+    </div>
 </div>
-<table class="table table-hover table-bordered sortable">
+<table class="table table-hover table-events sortable" style="font-size: 18px;">
     <thead>
         <tr>
-            <th>
+            <th valign="middle">
                 @Html.DisplayNameFor(model => model.Material[0].FileName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Material[0].CreatedAt)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Material[0].SubjectId)
@@ -22,15 +34,16 @@
                 @Html.DisplayNameFor(model => model.Material[0].IsActive)
             </th>
             <th></th>
-            <th></th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Material) {
+    @foreach (var item in Model.Material) {
         <tr>
-            <td>
+            <td valign="middle">
                 @Html.DisplayFor(modelItem => item.FileName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Subject.Name)
@@ -39,19 +52,10 @@
                 @Html.DisplayFor(modelItem => item.IsActive)
             </td>
             <td>
-                <a asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-danger">Удалить</a>
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-primary">Изменить</a>
-            </td>
-            <td>
-                <form method="post">
-                    <input type="hidden" asp-for="Id" value="@item.Id" />
-                    <button type="submit" class="btn btn-success">Скачать</button>
-                </form> 
+                <a asp-page="./Details" asp-route-id="@item.Id" class="btn btn-success btn-lg w-100">Перейти</a>
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>
 

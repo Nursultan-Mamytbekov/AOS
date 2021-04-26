@@ -51,16 +51,25 @@ button.accept-policy {
   line-height: inherit;
 }
 
+.table td, .table th {
+    vertical-align: middle;
+}
+
+.table-events td:last-child {
+    text-align: end;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    font-family: 'Roboto', sans-serif;
+    margin-bottom: 60px;
 }
 .footer {
   position: absolute;

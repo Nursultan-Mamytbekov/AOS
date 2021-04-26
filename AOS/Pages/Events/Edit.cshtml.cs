@@ -7,20 +7,23 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AOS.Data;
+using AOS.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AOS.Pages.Events
 {
+    [Authorize]
     public class EditModel : PageModel
     {
-        private readonly AOS.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public EditModel(AOS.Data.ApplicationDbContext context)
+        public EditModel(ApplicationDbContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public Material Material { get; set; }
+        public MaterialEditViewModel EditViewModel { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -29,14 +32,23 @@ namespace AOS.Pages.Events
                 return NotFound();
             }
 
-            Material = await _context.Materials
-                .Include(m => m.Subject).FirstOrDefaultAsync(m => m.Id == id);
+            EditViewModel = await _context.Materials
+                .Include(m => m.Subject)
+                .Include(m => m.File)
+                .Select(m => new MaterialEditViewModel
+                {
+                    Id = m.Id,
+                    FileName = m.FileName,
+                    IsActive = m.IsActive,
+                    SubjectId = m.SubjectId,
+                })
+                .FirstOrDefaultAsync(m => m.Id == id);            
 
-            if (Material == null)
+            if (EditViewModel == null)
             {
                 return NotFound();
             }
-           ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Id");
+            ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Name");
             return Page();
         }
 
@@ -49,15 +61,22 @@ namespace AOS.Pages.Events
                 return Page();
             }
 
-            _context.Attach(Material).State = EntityState.Modified;
+            Material material = await _context.Materials
+                .Include(m => m.Subject)
+                .Include(m => m.File)
+                .FirstOrDefaultAsync(material => material.Id == EditViewModel.Id);
 
             try
             {
+                material.FileName = EditViewModel.FileName;
+                material.IsActive = EditViewModel.IsActive;
+                material.SubjectId = EditViewModel.SubjectId;
+                _context.Update(material);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MaterialExists(Material.Id))
+                if (!MaterialExists(material.Id))
                 {
                     return NotFound();
                 }

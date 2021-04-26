@@ -11,16 +11,15 @@ using Microsoft.AspNetCore.Authorization;
 namespace AOS.Pages.Events
 {
     [Authorize]
-    public class DeleteModel : PageModel
+    public class DetailsModel : PageModel
     {
-        private readonly AOS.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public DeleteModel(AOS.Data.ApplicationDbContext context)
+        public DetailsModel(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        [BindProperty]
         public Material Material { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -40,22 +39,15 @@ namespace AOS.Pages.Events
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        [BindProperty]
+        public int? Id { get; set; }
+
+        public IActionResult OnPost()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            Material = await _context.Materials.FindAsync(id);
-
-            if (Material != null)
-            {
-                _context.Materials.Remove(Material);
-                await _context.SaveChangesAsync();
-            }
-
-            return RedirectToPage("./Index");
+            if (Id == null) return NotFound();
+            var file = _context.Materials.Include(p => p.File).FirstOrDefault(p => p.Id == Id);
+            if (file == null) return NotFound();
+            return File(file.File.Data, file.ContentType, file.FileName + file.FileExtension);
         }
     }
 }
