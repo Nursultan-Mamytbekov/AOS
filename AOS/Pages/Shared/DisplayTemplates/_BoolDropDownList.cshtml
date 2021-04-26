@@ -1,0 +1,16 @@
+﻿@model bool
+@Html.DropDownList("", new SelectListItem[]
+{
+    new SelectListItem()
+    {
+        Text = "Активен",
+        Value = "true",
+        Selected = true
+    },
+    new SelectListItem()
+    {
+        Text = "Не активен",
+        Value = "false",
+        Selected = false
+    }
+})

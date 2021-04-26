@@ -16,5 +16,6 @@ namespace AOS.Data
 
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Material> Materials { get; set; }
+        public DbSet<File> Files { get; set; }
     }
 }

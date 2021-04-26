@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using AOS.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AOS.Pages.Subjects
 {
+    [Authorize]
     public class CreateModel : PageModel
     {
         private readonly AOS.Data.ApplicationDbContext _context;

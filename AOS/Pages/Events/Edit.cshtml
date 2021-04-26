@@ -5,44 +5,40 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
-
-<h4>Material</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Material.Id" />
-            <div class="form-group">
-                <label asp-for="Material.FileName" class="control-label"></label>
-                <input asp-for="Material.FileName" class="form-control" />
-                <span asp-validation-for="Material.FileName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Material.File" class="control-label"></label>
-                <input asp-for="Material.File" class="form-control" />
-                <span asp-validation-for="Material.File" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Material.IsActive" /> @Html.DisplayNameFor(model => model.Material.IsActive)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="Material.SubjectId" class="control-label"></label>
-                <select asp-for="Material.SubjectId" class="form-control" asp-items="ViewBag.SubjectId"></select>
-                <span asp-validation-for="Material.SubjectId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="container">
+    <h1>Изменить файл</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="EditViewModel.Id" />
+                <div class="form-group">
+                    <label asp-for="EditViewModel.FileName" class="control-label"></label>
+                    <input asp-for="EditViewModel.FileName" class="form-control" />
+                    <span asp-validation-for="EditViewModel.FileName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="form-check-label">
+                        @Html.DisplayNameFor(model => model.EditViewModel.IsActive)
+                        @Html.DisplayFor(model => model.EditViewModel.IsActive)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EditViewModel.SubjectId" class="control-label"></label>
+                    <select asp-for="EditViewModel.SubjectId" class="form-control" asp-items="ViewBag.SubjectId"></select>
+                    <span asp-validation-for="EditViewModel.SubjectId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Сохранить" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-page="./Index">Back to List</a>
+    <div>
+        <a asp-page="./Index">Назад</a>
+    </div>
 </div>
 
 @section Scripts {

@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AOS.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AOS.Pages.Subjects
 {
+    [Authorize]
     public class EditModel : PageModel
     {
         private readonly AOS.Data.ApplicationDbContext _context;
