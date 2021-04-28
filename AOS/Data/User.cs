@@ -10,6 +10,8 @@ namespace AOS.Data
 {
     public class User : IdentityUser
     {
+        public string FullName { get; set; }
         public ICollection<Material> Materials { get; set; }
+        public ICollection<Homework> Homeworks { get; set; }
     }
 }

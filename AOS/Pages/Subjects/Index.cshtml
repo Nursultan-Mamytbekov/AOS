@@ -1,5 +1,6 @@
 ﻿@page
 @model AOS.Pages.Subjects.IndexModel
+@inject IUserRolesManager userRolesManager
 
 @{
     ViewData["Title"] = "Index";
@@ -8,29 +9,40 @@
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Предметы</h1>
-        <a asp-page="./Create" class="btn btn-info btn-lg">Новый предмет</a>
+        @if (await userRolesManager.IsTeacher(User))
+        {
+            <a asp-page="./Create" class="btn btn-info btn-lg">Новый предмет</a>
+        }
     </div>
-    <table class="table table-hover sortable col-7">
+    <table class="table table-hover sortable col-10">
         <thead>
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.Subject[0].Name)
-                </th>
-                <th></th>
+                </th>                
             </tr>
         </thead>
         <tbody>
-    @foreach (var item in Model.Subject) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td align="right">               
-                    <a asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-danger mr-2">Удалить</a>
-                    <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-primary">Редактировать</a> 
-                </td>
-            </tr>
-    }
+            @foreach (var item in Model.Subject)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    @if (await userRolesManager.IsTeacher(User))
+                    {
+                        <td align="right">
+                            <a asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-danger mr-2">Удалить</a>
+                        </td>
+                        <td align="right">
+                            <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-primary">Редактировать</a>
+                        </td>        
+                    }
+                    <td align="right">
+                        <a asp-page="/Events/Index" asp-page-handler="BySubject" asp-route-id="@item.Id" class="btn btn-warning">Посмотреть события</a>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>

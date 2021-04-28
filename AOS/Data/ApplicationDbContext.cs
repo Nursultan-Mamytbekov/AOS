@@ -7,7 +7,7 @@ using System.Text;
 
 namespace AOS.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<User> 
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -16,6 +16,8 @@ namespace AOS.Data
 
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Material> Materials { get; set; }
-        public DbSet<File> Files { get; set; }
+        public DbSet<Homework> Homeworks { get; set; }
+        public DbSet<MaterialFile> MaterialFiles { get; set; }
+        public DbSet<HomeworkFile> HomeworkFiles { get; set; }
     }
 }

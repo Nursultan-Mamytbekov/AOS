@@ -1,0 +1,55 @@
+﻿@page
+@model AOS.Pages.Events.Homeworks.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Homework</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Homework.CreatedAt)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Homework.CreatedAt)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Homework.FileName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Homework.FileName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Homework.FileExtension)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Homework.FileExtension)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Homework.ContentType)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Homework.ContentType)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Homework.Material)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Homework.Material.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Homework.HomeworkFile)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Homework.HomeworkFile.Id)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Homework.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

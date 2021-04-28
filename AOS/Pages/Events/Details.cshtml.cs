@@ -45,9 +45,9 @@ namespace AOS.Pages.Events
         public IActionResult OnPost()
         {
             if (Id == null) return NotFound();
-            var file = _context.Materials.Include(p => p.File).FirstOrDefault(p => p.Id == Id);
+            var file = _context.Materials.Include(p => p.MaterialFile).FirstOrDefault(p => p.Id == Id);
             if (file == null) return NotFound();
-            return File(file.File.Data, file.ContentType, file.FileName + file.FileExtension);
+            return File(file.MaterialFile.Data, file.ContentType, file.FileName + file.FileExtension);
         }
     }
 }

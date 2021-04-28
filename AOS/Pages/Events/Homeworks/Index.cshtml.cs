@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using AOS.Data;
 using Microsoft.AspNetCore.Authorization;
 
-namespace AOS.Pages.Events
+namespace AOS.Pages.Events.Homeworks
 {
     [Authorize]
     public class IndexModel : PageModel
@@ -20,20 +20,21 @@ namespace AOS.Pages.Events
             _context = context;
         }
 
-        public IList<Material> Material { get;set; }
+        public IList<Homework> Homework { get;set; }
 
         public async Task OnGetAsync()
         {
-            Material = await _context.Materials
-                .Include(m => m.Subject).ToListAsync();
+            Homework = await _context.Homeworks
+                .Include(h => h.HomeworkFile)
+                .Include(h => h.Material).ToListAsync();
         }
 
-        public async Task<IActionResult> OnGetBySubjectAsync(int? id)
+        public async Task<IActionResult> OnGetByMaterialAsync(int? id)
         {
             if (id == null) return NotFound();
 
-            Material = await _context.Materials
-                .Include(m => m.Subject).Where(m => m.SubjectId == id).ToListAsync();
+            Homework = await _context.Homeworks
+                .Include(h => h.Material).Where(h => h.MaterialId == id).ToListAsync();
 
             return Page();
         }
@@ -44,9 +45,9 @@ namespace AOS.Pages.Events
         public IActionResult OnPost()
         {
             if (Id == null) return NotFound();
-            var file = _context.Materials.Include(p => p.MaterialFile).FirstOrDefault(p => p.Id == Id);
+            var file = _context.Homeworks.Include(p => p.HomeworkFile).FirstOrDefault(p => p.Id == Id);
             if (file == null) return NotFound();
-            return File(file.MaterialFile.Data, file.ContentType, file.FileName + file.FileExtension);
+            return File(file.HomeworkFile.Data, file.ContentType, file.FileName + file.FileExtension);
         }
     }
 }

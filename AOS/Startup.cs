@@ -1,4 +1,5 @@
 using AOS.Data;
+using AOS.Services;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,6 +30,9 @@ namespace AOS
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddTransient<IUserRolesManager, UserRolesManager>();
+
             services.AddDbContext<ApplicationDbContext>(
                 options => {
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
@@ -38,7 +42,7 @@ namespace AOS
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            services.AddIdentity<User, IdentityRole>(options =>
             {
                 options.User.RequireUniqueEmail = true;
                 options.Password.RequireDigit = false;
@@ -58,7 +62,7 @@ namespace AOS
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
             });
 
-            services.AddRazorPages().AddRazorRuntimeCompilation();  
+            services.AddRazorPages().AddRazorRuntimeCompilation();            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

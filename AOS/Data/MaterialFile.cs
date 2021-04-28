@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AOS.Data
 {
-    public class File
+    public class MaterialFile
     {
         public int Id { get; set; }
         public byte[] Data { get; set; }

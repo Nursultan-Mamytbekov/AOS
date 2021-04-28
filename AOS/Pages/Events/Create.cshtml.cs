@@ -49,7 +49,7 @@ namespace AOS.Pages.Events
 
             using (var reader = new BinaryReader(Material.File.OpenReadStream()))
             {
-                material.File = new AOS.Data.File
+                material.MaterialFile = new AOS.Data.MaterialFile
                 {
                     Data = reader.ReadBytes((int)Material.File.Length)
                 };

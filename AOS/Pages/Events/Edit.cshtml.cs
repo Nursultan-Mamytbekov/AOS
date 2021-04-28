@@ -34,7 +34,7 @@ namespace AOS.Pages.Events
 
             EditViewModel = await _context.Materials
                 .Include(m => m.Subject)
-                .Include(m => m.File)
+                .Include(m => m.MaterialFile)
                 .Select(m => new MaterialEditViewModel
                 {
                     Id = m.Id,
@@ -63,7 +63,7 @@ namespace AOS.Pages.Events
 
             Material material = await _context.Materials
                 .Include(m => m.Subject)
-                .Include(m => m.File)
+                .Include(m => m.MaterialFile)
                 .FirstOrDefaultAsync(material => material.Id == EditViewModel.Id);
 
             try

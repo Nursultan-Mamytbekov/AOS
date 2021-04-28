@@ -18,6 +18,15 @@
                 @Html.DisplayFor(model => model.Subject.Name)
             </dd>
         </dl>
+        <table class="table table-sm">
+            @foreach(var item in Model.Subject.Materials)
+            {
+                <tr>
+                    <th>@Html.DisplayNameFor(m => item.FileName)</th>
+                    <td>@Html.DisplayFor(m => item.FileName)</td>
+                </tr>
+            }
+        </table>
     </div>
     <div>
         <a asp-page="./Edit" asp-route-id="@Model.Subject.Id" class="btn btn-primary">Изменить</a> |

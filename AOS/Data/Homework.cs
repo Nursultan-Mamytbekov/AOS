@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AOS.Data
 {
-    public class Material
+    public class Homework
     {
         public int Id { get; set; }
         [Display(Name = "Дата загрузки")]
@@ -17,14 +17,10 @@ namespace AOS.Data
         [Display(Name = "Тип файла")]
         public string FileExtension { get; set; }
         public string ContentType { get; set; }
-        [Display(Name = "Статус")]
-        [UIHint("_IsActive")]
-        public bool IsActive { get; set; }
         [Display(Name = "Предмет")]
-        public int SubjectId { get; set; }
-        public Subject Subject { get; set; }
-        public int MaterialFileId { get; set; }
-        public MaterialFile MaterialFile { get; set; }
-        public ICollection<Homework> Homeworks { get; set; }
+        public int MaterialId { get; set; }
+        public Material Material { get; set; }
+        public int HomeworkFileId { get; set; }
+        public HomeworkFile HomeworkFile { get; set; }
     }
 }
