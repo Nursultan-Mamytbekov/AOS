@@ -9,6 +9,8 @@ using AOS.Data;
 using AOS.Models;
 using System.IO;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 
 namespace AOS.Pages.Events
 {
@@ -16,14 +18,20 @@ namespace AOS.Pages.Events
     public class CreateModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<User> _userManager;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+
+        public CreateModel(ApplicationDbContext context, UserManager<User> userManager, IHttpContextAccessor httpContextAccessor)
+        {
+            _context = context;
+            _userManager = userManager;
+            _httpContextAccessor = httpContextAccessor;
+        }
 
         [BindProperty]
         public MaterialViewModel Material { get; set; }
 
-        public CreateModel(ApplicationDbContext context)
-        {
-            _context = context;
-        }
 
         public IActionResult OnGet()
         {
@@ -44,12 +52,14 @@ namespace AOS.Pages.Events
                 FileExtension = Path.GetExtension(Material.File.FileName),
                 IsActive = Material.IsActive,
                 SubjectId = Material.SubjectId,
-                ContentType = Material.File.ContentType
+                DeadLine = Material.DeadLine,
+                ContentType = Material.File.ContentType,
+                User = await GetCurrentUser()
             };
 
             using (var reader = new BinaryReader(Material.File.OpenReadStream()))
             {
-                material.MaterialFile = new AOS.Data.MaterialFile
+                material.MaterialFile = new MaterialFile
                 {
                     Data = reader.ReadBytes((int)Material.File.Length)
                 };
@@ -59,6 +69,11 @@ namespace AOS.Pages.Events
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
+        }
+
+        private async Task<User> GetCurrentUser()
+        {
+            return await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
         }
     }
 }

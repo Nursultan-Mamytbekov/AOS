@@ -87,6 +87,9 @@ namespace AOS.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("DeadLine")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("FileExtension")
                         .HasColumnType("nvarchar(max)");
 
@@ -360,13 +363,15 @@ namespace AOS.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AOS.Data.User", null)
+                    b.HasOne("AOS.Data.User", "User")
                         .WithMany("Homeworks")
                         .HasForeignKey("UserId");
 
                     b.Navigation("HomeworkFile");
 
                     b.Navigation("Material");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("AOS.Data.Material", b =>
@@ -383,13 +388,15 @@ namespace AOS.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AOS.Data.User", null)
+                    b.HasOne("AOS.Data.User", "User")
                         .WithMany("Materials")
                         .HasForeignKey("UserId");
 
                     b.Navigation("MaterialFile");
 
                     b.Navigation("Subject");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

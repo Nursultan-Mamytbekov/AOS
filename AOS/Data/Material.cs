@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AOS.Data
 {
@@ -20,11 +17,15 @@ namespace AOS.Data
         [Display(Name = "Статус")]
         [UIHint("_IsActive")]
         public bool IsActive { get; set; }
+        [Display(Name = "Срок сдачи")]
+        public DateTime DeadLine { get; set; }
         [Display(Name = "Предмет")]
         public int SubjectId { get; set; }
         public Subject Subject { get; set; }
         public int MaterialFileId { get; set; }
         public MaterialFile MaterialFile { get; set; }
+        public string UserId { get; set; }
+        public User User { get; set; }
         public ICollection<Homework> Homeworks { get; set; }
     }
 }

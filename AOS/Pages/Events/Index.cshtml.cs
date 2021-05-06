@@ -37,16 +37,5 @@ namespace AOS.Pages.Events
 
             return Page();
         }
-
-        [BindProperty]
-        public int? Id { get; set; }
-
-        public IActionResult OnPost()
-        {
-            if (Id == null) return NotFound();
-            var file = _context.Materials.Include(p => p.MaterialFile).FirstOrDefault(p => p.Id == Id);
-            if (file == null) return NotFound();
-            return File(file.MaterialFile.Data, file.ContentType, file.FileName + file.FileExtension);
-        }
     }
 }

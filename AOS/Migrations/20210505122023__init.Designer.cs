@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AOS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210427051326__init")]
+    [Migration("20210505122023__init")]
     partial class _init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -87,6 +87,9 @@ namespace AOS.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DeadLine")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FileExtension")
@@ -362,13 +365,15 @@ namespace AOS.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AOS.Data.User", null)
+                    b.HasOne("AOS.Data.User", "User")
                         .WithMany("Homeworks")
                         .HasForeignKey("UserId");
 
                     b.Navigation("HomeworkFile");
 
                     b.Navigation("Material");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("AOS.Data.Material", b =>
@@ -385,13 +390,15 @@ namespace AOS.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AOS.Data.User", null)
+                    b.HasOne("AOS.Data.User", "User")
                         .WithMany("Materials")
                         .HasForeignKey("UserId");
 
                     b.Navigation("MaterialFile");
 
                     b.Navigation("Subject");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

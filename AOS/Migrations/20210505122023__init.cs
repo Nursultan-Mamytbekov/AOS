@@ -45,7 +45,7 @@ namespace AOS.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                }); 
+                });
 
             migrationBuilder.CreateTable(
                 name: "HomeworkFiles",
@@ -203,6 +203,7 @@ namespace AOS.Migrations
                     FileExtension = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ContentType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    DeadLine = table.Column<DateTime>(type: "datetime2", nullable: false),
                     SubjectId = table.Column<int>(type: "int", nullable: false),
                     MaterialFileId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)

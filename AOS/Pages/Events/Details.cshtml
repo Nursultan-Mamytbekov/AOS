@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{handler?}"
 @model AOS.Pages.Events.DetailsModel
 @inject IUserRolesManager userRolesManager
 @{
@@ -30,18 +30,41 @@
                 <th>@Html.DisplayNameFor(model => model.Material.Subject)</th>
                 <td>@Html.DisplayFor(model => model.Material.Subject.Name)</td>
             </tr>
+            @if (await userRolesManager.IsStudent(User))
+            {
+                <tr>
+                    <th>Загруженная работа</th>
+                    <td>@Model.Homework?.FileName</td>
+                </tr>
+            }
         </table>
     </div>
-    <div class="d-flex">
+    <div class="d-flex mb-5">
         <a asp-page="./Index" class="btn btn-secondary mr-3">Назад</a>
         @if (await userRolesManager.IsTeacher(User))
         {
             <a asp-page="./Delete" asp-route-id="@Model.Material.Id" class="btn btn-danger mr-3">Удалить</a>
             <a asp-page="./Edit" asp-route-id="@Model.Material.Id" class="btn btn-primary mr-3">Изменить</a>
+            <a asp-page="./Homeworks/Index" asp-route-id="@Model.Material.Id" class="btn btn-info mr-3">Домашние работы</a>
         }
         <form method="post">
             <input type="hidden" asp-for="Id" value="@Model.Material.Id" />
             <button type="submit" class="btn btn-success">Скачать</button>
         </form>
     </div>
+    @if (await userRolesManager.IsStudent(User))
+    {
+        <h3>Загрузить домашнее задание</h3>
+        <form enctype="multipart/form-data" method="post">
+            <input type="hidden" asp-for="UploadHomeworkModel.MaterialId" value="@Model.Material.Id" />
+            <div class="form-group">
+                <label asp-for="UploadHomeworkModel.File" class="control-label"></label>
+                <input asp-for="UploadHomeworkModel.File" class="form-control-file" type="file" required />
+                <span asp-validation-for="UploadHomeworkModel.File" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" asp-page-handler="UploadHomework" value="Загрузить" class="btn btn-primary" />
+            </div>
+        </form>
+    }
 </div>

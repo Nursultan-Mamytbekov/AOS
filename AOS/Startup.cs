@@ -33,6 +33,15 @@ namespace AOS
 
             services.AddTransient<IUserRolesManager, UserRolesManager>();
 
+            services.AddTransient<IEmailSender, EmailSender>(i =>
+                new EmailSender(
+                    Configuration["EmailSender:Host"],
+                    Configuration.GetValue<int>("EmailSender:Port"),
+                    Configuration.GetValue<bool>("EmailSender:EnableSSL"),
+                    Configuration["EmailSender:UserName"],
+                    Configuration["EmailSender:Password"],
+                    Configuration["EmailSender:Owner"]));
+
             services.AddDbContext<ApplicationDbContext>(
                 options => {
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
@@ -44,6 +53,7 @@ namespace AOS
 
             services.AddIdentity<User, IdentityRole>(options =>
             {
+                options.SignIn.RequireConfirmedEmail = true;
                 options.User.RequireUniqueEmail = true;
                 options.Password.RequireDigit = false;
                 options.Password.RequiredLength = 6;

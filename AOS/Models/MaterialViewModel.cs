@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace AOS.Models
@@ -15,5 +16,7 @@ namespace AOS.Models
         public IFormFile File { get; set; }
         [Display(Name = "Предмет")]
         public int SubjectId { get; set; }
+        [Display(Name = "Срок сдачи")]
+        public DateTime DeadLine { get; set; }
     }
 }
