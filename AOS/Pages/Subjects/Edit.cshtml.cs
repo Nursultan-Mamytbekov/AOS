@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AOS.Pages.Subjects
 {
-    [Authorize]
+    [Authorize(Roles = "teacher")]
     public class EditModel : PageModel
     {
         private readonly AOS.Data.ApplicationDbContext _context;

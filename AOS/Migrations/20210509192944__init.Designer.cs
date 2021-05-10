@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AOS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210505122023__init")]
+    [Migration("20210509192944__init")]
     partial class _init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -135,6 +135,30 @@ namespace AOS.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("MaterialFiles");
+                });
+
+            modelBuilder.Entity("AOS.Data.Result", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("HomeworkId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Rate")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Review")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HomeworkId")
+                        .IsUnique();
+
+                    b.ToTable("Results");
                 });
 
             modelBuilder.Entity("AOS.Data.Subject", b =>
@@ -401,6 +425,17 @@ namespace AOS.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("AOS.Data.Result", b =>
+                {
+                    b.HasOne("AOS.Data.Homework", "Homework")
+                        .WithOne("Result")
+                        .HasForeignKey("AOS.Data.Result", "HomeworkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Homework");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -450,6 +485,11 @@ namespace AOS.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("AOS.Data.Homework", b =>
+                {
+                    b.Navigation("Result");
                 });
 
             modelBuilder.Entity("AOS.Data.HomeworkFile", b =>

@@ -268,6 +268,27 @@ namespace AOS.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Results",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Rate = table.Column<int>(type: "int", nullable: false),
+                    Review = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HomeworkId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Results", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Results_Homeworks_HomeworkId",
+                        column: x => x.HomeworkId,
+                        principalTable: "Homeworks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -338,6 +359,12 @@ namespace AOS.Migrations
                 name: "IX_Materials_UserId",
                 table: "Materials",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Results_HomeworkId",
+                table: "Results",
+                column: "HomeworkId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -358,10 +385,13 @@ namespace AOS.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Homeworks");
+                name: "Results");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Homeworks");
 
             migrationBuilder.DropTable(
                 name: "HomeworkFiles");

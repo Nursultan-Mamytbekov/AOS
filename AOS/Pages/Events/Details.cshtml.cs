@@ -49,7 +49,7 @@ namespace AOS.Pages.Events
                 .Include(m => m.Subject).FirstOrDefaultAsync(m => m.Id == id);
 
             var user = await GetCurrentUser();
-            Homework = await _context.Homeworks.FirstOrDefaultAsync(p => p.User == user);            
+            Homework = await _context.Homeworks.FirstOrDefaultAsync(p => p.User == user && p.MaterialId == Material.Id);            
 
             if (Material == null)
             {

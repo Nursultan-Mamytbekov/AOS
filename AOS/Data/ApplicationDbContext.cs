@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using AOS.Data;
 
 namespace AOS.Data
 {
@@ -19,5 +20,6 @@ namespace AOS.Data
         public DbSet<Homework> Homeworks { get; set; }
         public DbSet<MaterialFile> MaterialFiles { get; set; }
         public DbSet<HomeworkFile> HomeworkFiles { get; set; }
+        public DbSet<Result> Results { get; set; }
     }
 }

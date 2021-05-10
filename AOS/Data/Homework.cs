@@ -19,11 +19,13 @@ namespace AOS.Data
         public string ContentType { get; set; }
         [Display(Name = "Задание")]
         public int MaterialId { get; set; }
+        [Display(Name = "Задание")]
         public Material Material { get; set; }
         public int HomeworkFileId { get; set; }
         public HomeworkFile HomeworkFile { get; set; }
         public string UserId { get; set; }
         [Display(Name = "Студент")]
         public User User { get; set; }
+        public Result Result { get; set; }
     }
 }

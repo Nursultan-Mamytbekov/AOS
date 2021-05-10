@@ -53,7 +53,7 @@ namespace AOS
 
             services.AddIdentity<User, IdentityRole>(options =>
             {
-                options.SignIn.RequireConfirmedEmail = true;
+                options.SignIn.RequireConfirmedEmail = false;
                 options.User.RequireUniqueEmail = true;
                 options.Password.RequireDigit = false;
                 options.Password.RequiredLength = 6;

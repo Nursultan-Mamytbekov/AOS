@@ -21,6 +21,7 @@ namespace AOS.Data
         public DateTime DeadLine { get; set; }
         [Display(Name = "Предмет")]
         public int SubjectId { get; set; }
+        [Display(Name = "Предмет")]
         public Subject Subject { get; set; }
         public int MaterialFileId { get; set; }
         public MaterialFile MaterialFile { get; set; }

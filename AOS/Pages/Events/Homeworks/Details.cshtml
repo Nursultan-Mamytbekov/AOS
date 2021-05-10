@@ -1,0 +1,38 @@
+﻿@page "{handler?}"
+@model AOS.Pages.Events.Homeworks.DetailsModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<div class="container">
+    <h1>Домашнее задание</h1>
+    <div>
+        <table class="table table-bordered">
+            <tr>
+                <th class="w-25">@Html.DisplayNameFor(model => model.Homework.FileName)</th>
+                <td>@Html.DisplayFor(model => model.Homework.FileName)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Homework.CreatedAt)</th>
+                <td>@Html.DisplayFor(model => model.Homework.CreatedAt)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Homework.FileExtension)</th>
+                <td>@Html.DisplayFor(model => model.Homework.FileExtension)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Homework.Material)</th>
+                <td>@Html.DisplayFor(model => model.Homework.Material.FileName)</td>
+            </tr>
+        </table>
+    </div>
+    <div class="d-flex mb-5">
+        <a asp-page="./Index" asp-route-id="@Model.Homework.Material.Id" class="btn btn-secondary mr-3">Назад</a>       
+        <form method="post">
+            <input type="hidden" asp-for="Id" value="@Model.Homework.Id" />
+            <button type="submit" class="btn btn-success mr-3">Скачать работу</button>
+        </form>
+        <a asp-page="/Results/Create" asp-route-homeworkId="@Model.Homework.Id" class="btn btn-secondary mr-3">Оценить</a>
+    </div>
+</div>

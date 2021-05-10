@@ -6,23 +6,29 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using AOS.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AOS.Pages.Events.Homeworks
 {
+    [Authorize(Roles = "teacher")]
     public class IndexModel : PageModel
     {
-        private readonly AOS.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public IndexModel(AOS.Data.ApplicationDbContext context)
+        public IndexModel(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public IList<Homework> Homework { get;set; }
+        public IList<Homework> Homeworks { get;set; }
+
+        public Material Material { get; set; }
 
         public async Task OnGetAsync(int? id)
         {
-            Homework = await _context.Homeworks
+            Material = await _context.Materials.FirstOrDefaultAsync(p => p.Id == id);          
+
+            Homeworks = await _context.Homeworks
                 .Include(h => h.User)
                 .Include(h => h.Material)
                 .Where(h => h.MaterialId == id)
