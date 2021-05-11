@@ -276,11 +276,18 @@ namespace AOS.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Rate = table.Column<int>(type: "int", nullable: false),
                     Review = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    HomeworkId = table.Column<int>(type: "int", nullable: false)
+                    HomeworkId = table.Column<int>(type: "int", nullable: false),
+                    TeacherId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Results", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Results_AspNetUsers_TeacherId",
+                        column: x => x.TeacherId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Results_Homeworks_HomeworkId",
                         column: x => x.HomeworkId,
@@ -365,6 +372,11 @@ namespace AOS.Migrations
                 table: "Results",
                 column: "HomeworkId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Results_TeacherId",
+                table: "Results",
+                column: "TeacherId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

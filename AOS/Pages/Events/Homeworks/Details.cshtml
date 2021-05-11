@@ -25,14 +25,27 @@
                 <th>@Html.DisplayNameFor(model => model.Homework.Material)</th>
                 <td>@Html.DisplayFor(model => model.Homework.Material.FileName)</td>
             </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Homework.Result.Rate)</th>
+                <td>@Html.DisplayFor(model => model.Homework.Result.Rate)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Homework.Result.Review)</th>
+                <td>@Html.DisplayFor(model => model.Homework.Result.Review)</td>
+            </tr>
         </table>
     </div>
     <div class="d-flex mb-5">
-        <a asp-page="./Index" asp-route-id="@Model.Homework.Material.Id" class="btn btn-secondary mr-3">Назад</a>       
+        <a asp-page="./Index" asp-route-id="@Model.Homework.Material.Id" class="btn btn-secondary mr-3">Назад</a>
         <form method="post">
             <input type="hidden" asp-for="Id" value="@Model.Homework.Id" />
             <button type="submit" class="btn btn-success mr-3">Скачать работу</button>
         </form>
-        <a asp-page="/Results/Create" asp-route-homeworkId="@Model.Homework.Id" class="btn btn-secondary mr-3">Оценить</a>
+        <a asp-page="/Results/Create" asp-route-homeworkId="@Model.Homework.Id" class="btn btn-primary mr-3">Оценка работы</a>
+        <a asp-page="./Delete" asp-route-id="@Model.Homework.Id" class="btn btn-danger mr-3">Удалить работу</a>
+        <form method="post">
+            <input type="hidden" asp-for="DeleteResultId" value="@Model.Homework.Result?.Id" />
+            <button type="submit" class="btn btn-danger mr-3" asp-page-handler="DeleteResult">Удалить оценку</button> 
+        </form>
     </div>
-</div>
+</div> 

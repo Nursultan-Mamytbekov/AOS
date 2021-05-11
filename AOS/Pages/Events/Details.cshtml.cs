@@ -72,44 +72,25 @@ namespace AOS.Pages.Events
             {
                 return Page();
             }
-
-            var user = await GetCurrentUser();
-            var homework = await _context.Homeworks.Include(p => p.HomeworkFile).FirstOrDefaultAsync(p => p.User == user);
-
-            if (homework != null)
+        
+            var newHomework = new Homework()
             {
-                homework.FileName = Path.GetFileNameWithoutExtension(UploadHomeworkModel.File.FileName);
-                homework.FileExtension = Path.GetExtension(UploadHomeworkModel.File.FileName);
-                homework.ContentType = UploadHomeworkModel.File.ContentType;
-                homework.MaterialId = UploadHomeworkModel.MaterialId;
-                homework.MaterialId = UploadHomeworkModel.MaterialId;
-                using (var reader = new BinaryReader(UploadHomeworkModel.File.OpenReadStream()))
-                {
-                    homework.HomeworkFile.Data = reader.ReadBytes((int)UploadHomeworkModel.File.Length);
-                }
-            }
-            else
+                FileName = Path.GetFileNameWithoutExtension(UploadHomeworkModel.File.FileName),
+                FileExtension = Path.GetExtension(UploadHomeworkModel.File.FileName),                
+                ContentType = UploadHomeworkModel.File.ContentType,
+                MaterialId = UploadHomeworkModel.MaterialId,
+                User = await GetCurrentUser()
+            };
+            using (var reader = new BinaryReader(UploadHomeworkModel.File.OpenReadStream()))
             {
-                var newHomework = new Homework()
+                newHomework.HomeworkFile = new HomeworkFile
                 {
-                    FileName = Path.GetFileNameWithoutExtension(UploadHomeworkModel.File.FileName),
-                    FileExtension = Path.GetExtension(UploadHomeworkModel.File.FileName),                
-                    ContentType = UploadHomeworkModel.File.ContentType,
-                    MaterialId = UploadHomeworkModel.MaterialId,
-                    User = await GetCurrentUser()
+                    Data = reader.ReadBytes((int)UploadHomeworkModel.File.Length)
                 };
-                using (var reader = new BinaryReader(UploadHomeworkModel.File.OpenReadStream()))
-                {
-                    newHomework.HomeworkFile = new HomeworkFile
-                    {
-                        Data = reader.ReadBytes((int)UploadHomeworkModel.File.Length)
-                    };
-                }
-                _context.Homeworks.Add(newHomework);
             }
 
+            _context.Homeworks.Add(newHomework);            
             await _context.SaveChangesAsync();
-
             return RedirectToPage("./Details", new { id = UploadHomeworkModel.MaterialId });
         }
 

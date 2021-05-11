@@ -25,6 +25,9 @@ namespace AOS.Pages.Events.Homeworks
         [BindProperty]
         public int? Id { get; set; }
 
+        [BindProperty]
+        public int? DeleteResultId{ get; set; }
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -35,7 +38,8 @@ namespace AOS.Pages.Events.Homeworks
             Homework = await _context.Homeworks
                 .Include(h => h.Material)
                 .Include(h => h.Result)
-                .Include(h => h.User).FirstOrDefaultAsync(m => m.Id == id);
+                .Include(h => h.User)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (Homework == null)
             {
@@ -50,6 +54,24 @@ namespace AOS.Pages.Events.Homeworks
             var file = _context.Homeworks.Include(p => p.HomeworkFile).FirstOrDefault(p => p.Id == Id);
             if (file == null) return NotFound();
             return File(file.HomeworkFile.Data, file.ContentType, file.FileName + file.FileExtension);
+        }
+
+        public async Task<IActionResult> OnPostDeleteResultAsync()
+        {
+            if (DeleteResultId == null)
+            {
+                return NotFound("Не найдена оценка для удаления");
+            }
+
+            var result = await _context.Results.FindAsync(DeleteResultId);
+
+            if (result != null)
+            {
+                _context.Results.Remove(result);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToPage("./Details", new { id = result.HomeworkId });
         }
     }
 }

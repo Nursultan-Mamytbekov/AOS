@@ -1,0 +1,30 @@
+﻿@page
+@model AOS.Pages.Results.DetailsModel
+
+
+<div class="container">
+    <div>
+        <h1>Результаты</h1>
+        <table class="table table-bordered">
+            <tr>
+                <th class="w-25">@Html.DisplayNameFor(model => model.Result.Homework)</th>
+                <td>@Html.DisplayFor(model => model.Result.Homework.FileName)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Result.Teacher)</th>
+                <td>@Html.DisplayFor(model => model.Result.Teacher.FullName)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Result.Rate)</th>
+                <td>@Html.DisplayFor(model => model.Result.Rate)</td>
+            </tr>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Result.Review)</th>
+                <td>@Html.DisplayFor(model => model.Result.Review)</td>
+            </tr>                       
+        </table>
+    </div>
+    <div>        
+        <a asp-page="./Index" class="btn btn-secondary">Назад</a>
+    </div>
+</div>

@@ -14,5 +14,6 @@ namespace AOS.Models
         [Display(Name = "Файл")]
         public IFormFile File { get; set; }
         public int MaterialId { get; set; }
+
     }
 }

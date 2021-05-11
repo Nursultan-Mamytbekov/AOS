@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AOS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210509192944__init")]
+    [Migration("20210510100615__init")]
     partial class _init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -153,10 +153,15 @@ namespace AOS.Migrations
                     b.Property<string>("Review")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("TeacherId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("HomeworkId")
                         .IsUnique();
+
+                    b.HasIndex("TeacherId");
 
                     b.ToTable("Results");
                 });
@@ -433,7 +438,13 @@ namespace AOS.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("AOS.Data.User", "Teacher")
+                        .WithMany("Results")
+                        .HasForeignKey("TeacherId");
+
                     b.Navigation("Homework");
+
+                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -517,6 +528,8 @@ namespace AOS.Migrations
                     b.Navigation("Homeworks");
 
                     b.Navigation("Materials");
+
+                    b.Navigation("Results");
                 });
 #pragma warning restore 612, 618
         }

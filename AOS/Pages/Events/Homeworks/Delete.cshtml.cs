@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AOS.Pages.Events.Homeworks
 {
-    [Authorize(Roles = "student")]
+    [Authorize(Roles = "teacher")]
     public class DeleteModel : PageModel
     {
         private readonly AOS.Data.ApplicationDbContext _context;

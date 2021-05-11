@@ -67,7 +67,7 @@ namespace AOS
                 options.Cookie.Name = "AOS";
                 options.Cookie.HttpOnly = true;
                 options.LoginPath = "/Identity/Account/Login";
-                options.AccessDeniedPath = "/Account/AccessDenied";
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
             });

@@ -52,10 +52,6 @@
             <input type="hidden" asp-for="Id" value="@Model.Material.Id" />
             <button type="submit" class="btn btn-success mr-3">Скачать задание</button>
         </form>
-        @if (await userRolesManager.IsStudent(User) && Model.Homework != null)
-        {
-            <a asp-page="./Homeworks/Delete" asp-route-id="@Model.Homework?.Id" class="btn btn-danger mr-3">Удалить загруженную работу</a>
-        }
     </div>
     @if (await userRolesManager.IsStudent(User) && Model.Material.IsActive == true)
     {

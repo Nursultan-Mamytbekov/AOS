@@ -13,5 +13,6 @@ namespace AOS.Data
         public string FullName { get; set; }
         public ICollection<Material> Materials { get; set; }
         public ICollection<Homework> Homeworks { get; set; }
+        public ICollection<Result> Results { get; set; }
     }
 }

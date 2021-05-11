@@ -17,5 +17,7 @@ namespace AOS.Data
         public int HomeworkId { get; set; }
         [Display(Name = "Работа")]
         public Homework Homework { get; set; }
+        public string TeacherId { get; set; }
+        public User Teacher { get; set; }
     }
 }

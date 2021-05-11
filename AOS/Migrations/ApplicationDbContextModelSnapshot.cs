@@ -151,10 +151,15 @@ namespace AOS.Migrations
                     b.Property<string>("Review")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("TeacherId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("HomeworkId")
                         .IsUnique();
+
+                    b.HasIndex("TeacherId");
 
                     b.ToTable("Results");
                 });
@@ -431,7 +436,13 @@ namespace AOS.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("AOS.Data.User", "Teacher")
+                        .WithMany("Results")
+                        .HasForeignKey("TeacherId");
+
                     b.Navigation("Homework");
+
+                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -515,6 +526,8 @@ namespace AOS.Migrations
                     b.Navigation("Homeworks");
 
                     b.Navigation("Materials");
+
+                    b.Navigation("Results");
                 });
 #pragma warning restore 612, 618
         }
