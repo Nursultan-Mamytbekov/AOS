@@ -1,0 +1,48 @@
+﻿@page
+@model AOS.Pages.Exams.ExamResults.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container">
+    <h3>Экзаменационные работы</h3>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ExamResult[0].DateCreated)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ExamResult[0].ExamUserTicket.User)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ExamResult[0].ExamUserTicket)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model.ExamResult) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateCreated)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExamUserTicket.User.FullName)
+                </td>
+                <td>
+                    @Model.Tickets.FirstOrDefault(p => p.Id == item.ExamUserTicket.TicketId).Name
+                </td>
+                <td>
+                    <form method="post">
+                        <input type="hidden" asp-for="Id" value="@item.Id" />
+                        <button type="submit" class="btn btn-success w-75">Скачать</button>
+                    </form>
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>
+</div>

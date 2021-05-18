@@ -66,18 +66,11 @@ namespace AOS.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ExamId = table.Column<int>(type: "int", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Exams", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Exams_Exams_ExamId",
-                        column: x => x.ExamId,
-                        principalTable: "Exams",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -337,6 +330,7 @@ namespace AOS.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    TicketId = table.Column<int>(type: "int", nullable: false),
                     ExamActionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -401,7 +395,10 @@ namespace AOS.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ExamUserTicketId = table.Column<int>(type: "int", nullable: false),
-                    ExamResultFileId = table.Column<int>(type: "int", nullable: false)
+                    ExamResultFileId = table.Column<int>(type: "int", nullable: false),
+                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FileExtension = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ContentType = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -502,11 +499,6 @@ namespace AOS.Migrations
                 name: "IX_ExamResults_ExamUserTicketId",
                 table: "ExamResults",
                 column: "ExamUserTicketId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Exams_ExamId",
-                table: "Exams",
-                column: "ExamId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Homeworks_HomeworkFileId",

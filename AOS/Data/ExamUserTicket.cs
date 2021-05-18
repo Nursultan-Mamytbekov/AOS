@@ -9,10 +9,10 @@ namespace AOS.Data
         [Display(Name = "Дата получения билета")]
         public DateTime DateCreated { get; set; } = DateTime.Now;
         public string UserId { get; set; }
-        [Display(Name = "Дата студент")]
+        [Display(Name = "Студент")]
         public User User { get; set; }
+        public int TicketId { get; set; }
         public int ExamActionId { get; set; }
-        [Display(Name = "Событие экзамена")]
         public ExamAction ExamAction { get; set; }
     }
 }

@@ -28,8 +28,7 @@
                 </div>
                 <div class="form-group form-check">
                     <label class="form-check-label">
-                        @Html.DisplayNameFor(model => model.ExamAction.IsActive)                          
-                        @Html.DisplayFor(model => model.ExamAction.IsActive)
+                        <input class="form-check-input" asp-for="ExamAction.IsActive" /> @Html.DisplayNameFor(model => model.ExamAction.IsActive)
                     </label>
                 </div>
                 <div class="form-group">

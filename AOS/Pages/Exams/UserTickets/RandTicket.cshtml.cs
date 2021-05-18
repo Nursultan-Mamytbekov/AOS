@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using AOS.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AOS.Pages.Exams.UserTickets
 {
+    [Authorize(Roles = "student")]
     public class RandTicketModel : PageModel
     {
         private readonly ApplicationDbContext _context;
@@ -25,23 +27,25 @@ namespace AOS.Pages.Exams.UserTickets
         }
 
         public Ticket Ticket { get; set; }
+        public int? ActionId { get; set; }
         [BindProperty]
         public int? Id { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? ticketId, int? actionId)
         {
-            if (ticketId == null)
+            if (ticketId == null || actionId == null)
             {
                 return NotFound();
             }
 
+            ActionId = actionId;
             Ticket = await _context.Tickets
                 .Include(t => t.Exam)
                 .FirstOrDefaultAsync(m => m.Id == ticketId);
 
             var action = await _context.ExamActions.FirstOrDefaultAsync(p => p.Id == actionId);
 
-            if (Ticket == null)
+            if (Ticket == null || action == null)
             {
                 return NotFound();
             }
@@ -49,7 +53,8 @@ namespace AOS.Pages.Exams.UserTickets
             var userTicket = new ExamUserTicket
             {
                 User = await GetCurrentUser(),
-                ExamAction = action
+                ExamAction = action,
+                TicketId = Convert.ToInt32(ticketId)
             };
 
             _context.UserTickets.Add(userTicket);

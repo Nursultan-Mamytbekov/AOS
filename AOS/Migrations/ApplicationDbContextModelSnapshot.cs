@@ -26,15 +26,10 @@ namespace AOS.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ExamId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ExamId");
 
                     b.ToTable("Exams");
                 });
@@ -72,6 +67,9 @@ namespace AOS.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("ContentType")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
@@ -80,6 +78,12 @@ namespace AOS.Migrations
 
                     b.Property<int>("ExamUserTicketId")
                         .HasColumnType("int");
+
+                    b.Property<string>("FileExtension")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -117,6 +121,9 @@ namespace AOS.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("ExamActionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TicketId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -540,17 +547,10 @@ namespace AOS.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("AOS.Data.Exam", b =>
-                {
-                    b.HasOne("AOS.Data.Exam", null)
-                        .WithMany("Exams")
-                        .HasForeignKey("ExamId");
-                });
-
             modelBuilder.Entity("AOS.Data.ExamAction", b =>
                 {
                     b.HasOne("AOS.Data.Exam", "Exam")
-                        .WithMany()
+                        .WithMany("ExamActions")
                         .HasForeignKey("ExamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -580,7 +580,7 @@ namespace AOS.Migrations
             modelBuilder.Entity("AOS.Data.ExamUserTicket", b =>
                 {
                     b.HasOne("AOS.Data.ExamAction", "ExamAction")
-                        .WithMany()
+                        .WithMany("ExamUserTickets")
                         .HasForeignKey("ExamActionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -733,9 +733,14 @@ namespace AOS.Migrations
 
             modelBuilder.Entity("AOS.Data.Exam", b =>
                 {
-                    b.Navigation("Exams");
+                    b.Navigation("ExamActions");
 
                     b.Navigation("Tickets");
+                });
+
+            modelBuilder.Entity("AOS.Data.ExamAction", b =>
+                {
+                    b.Navigation("ExamUserTickets");
                 });
 
             modelBuilder.Entity("AOS.Data.ExamResultFile", b =>

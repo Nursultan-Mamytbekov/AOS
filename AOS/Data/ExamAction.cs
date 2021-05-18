@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace AOS.Data
@@ -11,10 +12,11 @@ namespace AOS.Data
         [Display(Name = "Дата окончания")]
         public DateTime DateEnd { get; set; }
         public int ExamId { get; set; }
-        [Display(Name = "Дата экзамен")]
+        [Display(Name = "Экзамен")]
         public Exam Exam { get; set; }
         [Display(Name = "Статус")]
         [UIHint("_IsActive")]
         public bool IsActive { get; set; }
+        public ICollection<ExamUserTicket> ExamUserTickets { get; set; }
     }
 }

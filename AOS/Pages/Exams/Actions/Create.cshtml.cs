@@ -20,7 +20,7 @@ namespace AOS.Pages.Exams.Actions
 
         public IActionResult OnGet()
         {
-        ViewData["ExamId"] = new SelectList(_context.Exams, "Id", "Id");
+            ViewData["ExamId"] = new SelectList(_context.Exams, "Id", "Name");
             return Page();
         }
 

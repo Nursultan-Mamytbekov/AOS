@@ -4,6 +4,8 @@
 }
 
 <div class="container">
+    <h4>Достунпые экзамены</h4>
+    <hr />
     <table class="table table-hover col-md-6 sortable">
         <thead>
             <tr>
@@ -20,13 +22,8 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Exam.Name)
                     </td>
-                    <td align="right">
-                        @*<form method="post">
-                            <input type="hidden" asp-for="ExamId" value="@item.Exam.Id" />
-                            <input type="hidden" asp-for="ActionId" value="@item.Id" />
-                            <button type="submit" class="btn btn-success mr-3">Получить билет</button>
-                        </form>*@
-                        <a asp-page="./GetUserTicket" asp-route-actionId="@item.Id"></a>
+                    <td align="right">                        
+                        <a asp-page="./GetUserTicket" asp-route-actionId="@item.Id" class="btn btn-success w-75">Перейти</a>
                     </td>
                 </tr>
             }

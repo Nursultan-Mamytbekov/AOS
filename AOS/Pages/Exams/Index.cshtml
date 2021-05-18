@@ -10,7 +10,10 @@
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Экзамены</h1>
-        <a asp-page="./Create" class="btn btn-info btn-lg">Новый экзамен</a>
+        <div class="d-flex justify-content-between">
+            <a asp-page="./Actions/Index" class="btn btn-success mr-4">События экзаменов</a>      
+            <a asp-page="./Create" class="btn btn-info">Новый экзамен</a>    
+        </div>
     </div>
     <table class="table table-hover col-md-8 sortable">
         <thead>
