@@ -1,0 +1,35 @@
+﻿@page
+@model AOS.Pages.Exams.UserTickets.ActionsModel
+@{
+}
+
+<div class="container">
+    <table class="table table-hover col-md-6 sortable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Actions[0].Exam)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Actions)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Exam.Name)
+                    </td>
+                    <td align="right">
+                        @*<form method="post">
+                            <input type="hidden" asp-for="ExamId" value="@item.Exam.Id" />
+                            <input type="hidden" asp-for="ActionId" value="@item.Id" />
+                            <button type="submit" class="btn btn-success mr-3">Получить билет</button>
+                        </form>*@
+                        <a asp-page="./GetUserTicket" asp-route-actionId="@item.Id"></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

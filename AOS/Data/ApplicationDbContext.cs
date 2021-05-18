@@ -21,5 +21,12 @@ namespace AOS.Data
         public DbSet<MaterialFile> MaterialFiles { get; set; }
         public DbSet<HomeworkFile> HomeworkFiles { get; set; }
         public DbSet<Result> Results { get; set; }
+        public DbSet<Exam> Exams { get; set; }
+        public DbSet<ExamAction> ExamActions { get; set; }
+        public DbSet<ExamResult> ExamResults { get; set; }
+        public DbSet<ExamResultFile> ExamResulFiles { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<TicketFile> TicketFiles { get; set; }
+        public DbSet<ExamUserTicket> UserTickets { get; set; }
     }
 }

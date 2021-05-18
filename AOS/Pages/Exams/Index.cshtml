@@ -1,0 +1,42 @@
+﻿@page
+@model AOS.Pages.Exams.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div class="container">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Экзамены</h1>
+        <a asp-page="./Create" class="btn btn-info btn-lg">Новый экзамен</a>
+    </div>
+    <table class="table table-hover col-md-8 sortable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Exam[0].Name)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Exam)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td align="center">
+                        <a asp-page="./Details" asp-route-id="@item.Id" class="btn btn-success w-75">Перейти</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script src="~/js/sort.js"></script>
+}

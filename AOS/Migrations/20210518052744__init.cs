@@ -48,6 +48,39 @@ namespace AOS.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ExamResulFiles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Data = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExamResulFiles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Exams",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ExamId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Exams", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Exams_Exams_ExamId",
+                        column: x => x.ExamId,
+                        principalTable: "Exams",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "HomeworkFiles",
                 columns: table => new
                 {
@@ -84,6 +117,19 @@ namespace AOS.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Subjects", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TicketFiles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Data = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TicketFiles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -193,6 +239,28 @@ namespace AOS.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ExamActions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DateStart = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ExamId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExamActions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ExamActions_Exams_ExamId",
+                        column: x => x.ExamId,
+                        principalTable: "Exams",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Materials",
                 columns: table => new
                 {
@@ -232,6 +300,63 @@ namespace AOS.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Tickets",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FileExtension = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ContentType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ExamId = table.Column<int>(type: "int", nullable: false),
+                    TicketFileId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tickets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tickets_Exams_ExamId",
+                        column: x => x.ExamId,
+                        principalTable: "Exams",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Tickets_TicketFiles_TicketFileId",
+                        column: x => x.TicketFileId,
+                        principalTable: "TicketFiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserTickets",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ExamActionId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserTickets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserTickets_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserTickets_ExamActions_ExamActionId",
+                        column: x => x.ExamActionId,
+                        principalTable: "ExamActions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Homeworks",
                 columns: table => new
                 {
@@ -264,6 +389,33 @@ namespace AOS.Migrations
                         name: "FK_Homeworks_Materials_MaterialId",
                         column: x => x.MaterialId,
                         principalTable: "Materials",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ExamResults",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ExamUserTicketId = table.Column<int>(type: "int", nullable: false),
+                    ExamResultFileId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExamResults", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ExamResults_ExamResulFiles_ExamResultFileId",
+                        column: x => x.ExamResultFileId,
+                        principalTable: "ExamResulFiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ExamResults_UserTickets_ExamUserTicketId",
+                        column: x => x.ExamUserTicketId,
+                        principalTable: "UserTickets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -336,6 +488,27 @@ namespace AOS.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ExamActions_ExamId",
+                table: "ExamActions",
+                column: "ExamId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExamResults_ExamResultFileId",
+                table: "ExamResults",
+                column: "ExamResultFileId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExamResults_ExamUserTicketId",
+                table: "ExamResults",
+                column: "ExamUserTicketId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Exams_ExamId",
+                table: "Exams",
+                column: "ExamId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Homeworks_HomeworkFileId",
                 table: "Homeworks",
                 column: "HomeworkFileId",
@@ -377,6 +550,27 @@ namespace AOS.Migrations
                 name: "IX_Results_TeacherId",
                 table: "Results",
                 column: "TeacherId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tickets_ExamId",
+                table: "Tickets",
+                column: "ExamId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tickets_TicketFileId",
+                table: "Tickets",
+                column: "TicketFileId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserTickets_ExamActionId",
+                table: "UserTickets",
+                column: "ExamActionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserTickets_UserId",
+                table: "UserTickets",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -397,19 +591,40 @@ namespace AOS.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ExamResults");
+
+            migrationBuilder.DropTable(
                 name: "Results");
+
+            migrationBuilder.DropTable(
+                name: "Tickets");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "ExamResulFiles");
+
+            migrationBuilder.DropTable(
+                name: "UserTickets");
+
+            migrationBuilder.DropTable(
                 name: "Homeworks");
+
+            migrationBuilder.DropTable(
+                name: "TicketFiles");
+
+            migrationBuilder.DropTable(
+                name: "ExamActions");
 
             migrationBuilder.DropTable(
                 name: "HomeworkFiles");
 
             migrationBuilder.DropTable(
                 name: "Materials");
+
+            migrationBuilder.DropTable(
+                name: "Exams");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

@@ -1,0 +1,23 @@
+﻿@page
+@model AOS.Pages.Exams.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<div class="container">
+    <h1>Экзамены</h1>
+    <table class="table table-bordered">
+        <tr>
+            <th class="w-25">@Html.DisplayNameFor(model => model.Exam.Name)</th>
+            <td>@Html.DisplayFor(model => model.Exam.Name)</td>
+        </tr>
+    </table>
+    <div class="d-flex mb-5">           
+        <a asp-page="./Index" class="btn btn-secondary mr-3">Назад</a>
+        <a asp-page="./Edit" asp-route-id="@Model.Exam.Id" class="btn btn-primary mr-3">Изменить</a>
+        <a asp-page="./Delete" asp-route-id="@Model.Exam.Id" class="btn btn-danger mr-3">Удалить</a>
+        <a asp-page="./Tickets/Index" asp-route-examId="@Model.Exam.Id" class="btn btn-info mr-3">Билеты</a>
+    </div>
+</div>

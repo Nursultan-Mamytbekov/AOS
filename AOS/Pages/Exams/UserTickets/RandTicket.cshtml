@@ -1,0 +1,27 @@
+﻿@page
+@model AOS.Pages.Exams.UserTickets.RandTicketModel
+
+@{
+    ViewData["Title"] = "RandTicket";
+}
+
+<div class="container">
+    <div>
+        <h4>Ваш билет</h4>
+        <hr />
+        <table class="table table-bordered">
+            <tr>
+                <th class="w-25">@Html.DisplayNameFor(model => model.Ticket.Name)</th>
+                <td>@Html.DisplayFor(model => model.Ticket.Name)</td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <a asp-page="./GetUserTicket" class="btn btn-secondary mr-3">Назад</a>
+        <form method="post">
+            <input type="hidden" asp-for="Id" value="@Model.Ticket.Id" />
+            <button type="submit" class="btn btn-success mr-3">Скачать билет</button>
+        </form>
+    </div>
+</div>
+

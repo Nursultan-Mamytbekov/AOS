@@ -1,0 +1,51 @@
+﻿@page
+@model AOS.Pages.Exams.Actions.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="container">
+    <h1>Редактировать</h1>
+
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="ExamAction.Id" />
+                <div class="form-group">
+                    <label asp-for="ExamAction.DateStart" class="control-label"></label>
+                    <input asp-for="ExamAction.DateStart" class="form-control" />
+                    <span asp-validation-for="ExamAction.DateStart" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ExamAction.DateEnd" class="control-label"></label>
+                    <input asp-for="ExamAction.DateEnd" class="form-control" />
+                    <span asp-validation-for="ExamAction.DateEnd" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ExamAction.ExamId" class="control-label"></label>
+                    <select asp-for="ExamAction.ExamId" class="form-control" asp-items="ViewBag.ExamId"></select>
+                    <span asp-validation-for="ExamAction.ExamId" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="ExamAction.IsActive" /> @Html.DisplayNameFor(model => model.ExamAction.IsActive)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Изменить" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-page="./Index">Назад</a>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

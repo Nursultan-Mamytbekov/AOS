@@ -1,0 +1,36 @@
+﻿@page
+@model AOS.Pages.Exams.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="container">
+    <h1>Изменить экзамен</h1>
+
+    <div class="row">
+        <div class="col-md-4">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Exam.Id" />
+                <div class="form-group">
+                    <label asp-for="Exam.Name" class="control-label"></label>
+                    <input asp-for="Exam.Name" class="form-control" />
+                    <span asp-validation-for="Exam.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Изменить" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-page="./Details" asp-route-id="@Model.Exam.Id">Назад</a>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

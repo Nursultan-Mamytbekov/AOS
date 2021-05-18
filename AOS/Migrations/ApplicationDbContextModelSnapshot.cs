@@ -16,8 +16,120 @@ namespace AOS.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.4")
+                .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("AOS.Data.Exam", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ExamId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExamId");
+
+                    b.ToTable("Exams");
+                });
+
+            modelBuilder.Entity("AOS.Data.ExamAction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateEnd")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateStart")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ExamId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExamId");
+
+                    b.ToTable("ExamActions");
+                });
+
+            modelBuilder.Entity("AOS.Data.ExamResult", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ExamResultFileId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ExamUserTicketId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExamResultFileId")
+                        .IsUnique();
+
+                    b.HasIndex("ExamUserTicketId");
+
+                    b.ToTable("ExamResults");
+                });
+
+            modelBuilder.Entity("AOS.Data.ExamResultFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<byte[]>("Data")
+                        .HasColumnType("varbinary(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ExamResulFiles");
+                });
+
+            modelBuilder.Entity("AOS.Data.ExamUserTicket", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ExamActionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExamActionId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserTickets");
+                });
 
             modelBuilder.Entity("AOS.Data.Homework", b =>
                 {
@@ -177,6 +289,56 @@ namespace AOS.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Subjects");
+                });
+
+            modelBuilder.Entity("AOS.Data.Ticket", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ContentType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ExamId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FileExtension")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TicketFileId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExamId");
+
+                    b.HasIndex("TicketFileId")
+                        .IsUnique();
+
+                    b.ToTable("Tickets");
+                });
+
+            modelBuilder.Entity("AOS.Data.TicketFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<byte[]>("Data")
+                        .HasColumnType("varbinary(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TicketFiles");
                 });
 
             modelBuilder.Entity("AOS.Data.User", b =>
@@ -378,6 +540,60 @@ namespace AOS.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("AOS.Data.Exam", b =>
+                {
+                    b.HasOne("AOS.Data.Exam", null)
+                        .WithMany("Exams")
+                        .HasForeignKey("ExamId");
+                });
+
+            modelBuilder.Entity("AOS.Data.ExamAction", b =>
+                {
+                    b.HasOne("AOS.Data.Exam", "Exam")
+                        .WithMany()
+                        .HasForeignKey("ExamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Exam");
+                });
+
+            modelBuilder.Entity("AOS.Data.ExamResult", b =>
+                {
+                    b.HasOne("AOS.Data.ExamResultFile", "ExamResultFile")
+                        .WithOne("ExamResult")
+                        .HasForeignKey("AOS.Data.ExamResult", "ExamResultFileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AOS.Data.ExamUserTicket", "ExamUserTicket")
+                        .WithMany()
+                        .HasForeignKey("ExamUserTicketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ExamResultFile");
+
+                    b.Navigation("ExamUserTicket");
+                });
+
+            modelBuilder.Entity("AOS.Data.ExamUserTicket", b =>
+                {
+                    b.HasOne("AOS.Data.ExamAction", "ExamAction")
+                        .WithMany()
+                        .HasForeignKey("ExamActionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AOS.Data.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("ExamAction");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("AOS.Data.Homework", b =>
                 {
                     b.HasOne("AOS.Data.HomeworkFile", "HomeworkFile")
@@ -445,6 +661,25 @@ namespace AOS.Migrations
                     b.Navigation("Teacher");
                 });
 
+            modelBuilder.Entity("AOS.Data.Ticket", b =>
+                {
+                    b.HasOne("AOS.Data.Exam", "Exam")
+                        .WithMany("Tickets")
+                        .HasForeignKey("ExamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AOS.Data.TicketFile", "TicketFile")
+                        .WithOne("Ticket")
+                        .HasForeignKey("AOS.Data.Ticket", "TicketFileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Exam");
+
+                    b.Navigation("TicketFile");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -496,6 +731,18 @@ namespace AOS.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("AOS.Data.Exam", b =>
+                {
+                    b.Navigation("Exams");
+
+                    b.Navigation("Tickets");
+                });
+
+            modelBuilder.Entity("AOS.Data.ExamResultFile", b =>
+                {
+                    b.Navigation("ExamResult");
+                });
+
             modelBuilder.Entity("AOS.Data.Homework", b =>
                 {
                     b.Navigation("Result");
@@ -519,6 +766,11 @@ namespace AOS.Migrations
             modelBuilder.Entity("AOS.Data.Subject", b =>
                 {
                     b.Navigation("Materials");
+                });
+
+            modelBuilder.Entity("AOS.Data.TicketFile", b =>
+                {
+                    b.Navigation("Ticket");
                 });
 
             modelBuilder.Entity("AOS.Data.User", b =>

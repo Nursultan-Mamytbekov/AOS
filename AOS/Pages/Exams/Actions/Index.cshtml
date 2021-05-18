@@ -1,0 +1,56 @@
+﻿@page
+@model AOS.Pages.Exams.Actions.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container">
+    <h1>События экзаменов</h1>
+
+    <p>
+        <a asp-page="Create">Начать экзамен</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ExamAction[0].DateStart)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ExamAction[0].DateEnd)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ExamAction[0].Exam)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ExamAction[0].IsActive)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model.ExamAction) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateStart)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateEnd)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Exam.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsActive)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Редактировать</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id">Детали</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Удалить</a>
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>
+</div>
