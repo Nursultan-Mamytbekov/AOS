@@ -2,7 +2,10 @@
 @model AOS.Pages.Results.IndexModel
 
 <div class="container">
-    <h1>Результаты</h1>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Результаты</h1>
+        <a asp-page="./Exams/Index" class="btn btn-success">Результаты экзаменов</a>
+    </div>
     <table class="table">
         <thead>
             <tr>

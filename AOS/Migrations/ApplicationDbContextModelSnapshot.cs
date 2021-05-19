@@ -110,6 +110,34 @@ namespace AOS.Migrations
                     b.ToTable("ExamResulFiles");
                 });
 
+            modelBuilder.Entity("AOS.Data.ExamResultGrade", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ExamResultId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Rate")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Review")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TeacherId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExamResultId");
+
+                    b.HasIndex("TeacherId");
+
+                    b.ToTable("ExamResultGrades");
+                });
+
             modelBuilder.Entity("AOS.Data.ExamUserTicket", b =>
                 {
                     b.Property<int>("Id")
@@ -575,6 +603,23 @@ namespace AOS.Migrations
                     b.Navigation("ExamResultFile");
 
                     b.Navigation("ExamUserTicket");
+                });
+
+            modelBuilder.Entity("AOS.Data.ExamResultGrade", b =>
+                {
+                    b.HasOne("AOS.Data.ExamResult", "ExamResult")
+                        .WithMany()
+                        .HasForeignKey("ExamResultId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AOS.Data.User", "Teacher")
+                        .WithMany()
+                        .HasForeignKey("TeacherId");
+
+                    b.Navigation("ExamResult");
+
+                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("AOS.Data.ExamUserTicket", b =>

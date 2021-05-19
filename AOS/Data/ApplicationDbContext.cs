@@ -25,6 +25,7 @@ namespace AOS.Data
         public DbSet<ExamAction> ExamActions { get; set; }
         public DbSet<ExamResult> ExamResults { get; set; }
         public DbSet<ExamResultFile> ExamResulFiles { get; set; }
+        public DbSet<ExamResultGrade> ExamResultGrades { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<TicketFile> TicketFiles { get; set; }
         public DbSet<ExamUserTicket> UserTickets { get; set; }

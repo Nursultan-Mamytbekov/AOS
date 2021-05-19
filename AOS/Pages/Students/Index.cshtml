@@ -1,0 +1,45 @@
+﻿@page
+@model AOS.Pages.Students.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div class="container">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Студенты</h1>        
+    </div>
+    <table class="table table-hover col-md-8 sortable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Users[0].FullName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Users[0].Email)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Users)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script src="~/js/sort.js"></script>
+}
+

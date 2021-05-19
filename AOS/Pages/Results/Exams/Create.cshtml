@@ -1,0 +1,42 @@
+﻿@page
+@model AOS.Pages.Results.Exams.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="container">
+    <h4>@Model.ExamResult?.FileName</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">                
+                    <input asp-for="ExamResultGrade.ExamResultId" type="hidden" value="@Model.ExamResult.Id" class="form-control" readonly/>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ExamResultGrade.Rate" class="control-label"></label>
+                    <input asp-for="ExamResultGrade.Rate" class="form-control" />
+                    <span asp-validation-for="ExamResultGrade.Rate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ExamResultGrade.Review" class="control-label"></label>
+                    <textarea asp-for="ExamResultGrade.Review" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="ExamResultGrade.Review" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Оценить" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-page="/Exams/ExamResults/Details" asp-route-id="@Model.ExamResult.Id">Назад</a>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

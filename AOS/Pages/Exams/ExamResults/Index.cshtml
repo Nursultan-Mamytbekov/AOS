@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Index";
+    string ticketName;
 }
 
 <div class="container">
@@ -32,14 +33,12 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.ExamUserTicket.User.FullName)
                 </td>
+                @{ ticketName = Model.Tickets.FirstOrDefault(p => p.Id == item.ExamUserTicket.TicketId).Name;}
                 <td>
-                    @Model.Tickets.FirstOrDefault(p => p.Id == item.ExamUserTicket.TicketId).Name
+                    @ticketName
                 </td>
-                <td>
-                    <form method="post">
-                        <input type="hidden" asp-for="Id" value="@item.Id" />
-                        <button type="submit" class="btn btn-success w-75">Скачать</button>
-                    </form>
+                <td align="right">
+                    <a asp-page="./Details" asp-route-id="@item.Id" class="btn btn-success w-75">Перейти</a>
                 </td>
             </tr>
     }

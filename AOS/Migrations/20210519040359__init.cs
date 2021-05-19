@@ -445,6 +445,34 @@ namespace AOS.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ExamResultGrades",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Rate = table.Column<int>(type: "int", nullable: false),
+                    Review = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ExamResultId = table.Column<int>(type: "int", nullable: false),
+                    TeacherId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExamResultGrades", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ExamResultGrades_AspNetUsers_TeacherId",
+                        column: x => x.TeacherId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ExamResultGrades_ExamResults_ExamResultId",
+                        column: x => x.ExamResultId,
+                        principalTable: "ExamResults",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -488,6 +516,16 @@ namespace AOS.Migrations
                 name: "IX_ExamActions_ExamId",
                 table: "ExamActions",
                 column: "ExamId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExamResultGrades_ExamResultId",
+                table: "ExamResultGrades",
+                column: "ExamResultId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExamResultGrades_TeacherId",
+                table: "ExamResultGrades",
+                column: "TeacherId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ExamResults_ExamResultFileId",
@@ -583,7 +621,7 @@ namespace AOS.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ExamResults");
+                name: "ExamResultGrades");
 
             migrationBuilder.DropTable(
                 name: "Results");
@@ -595,10 +633,7 @@ namespace AOS.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "ExamResulFiles");
-
-            migrationBuilder.DropTable(
-                name: "UserTickets");
+                name: "ExamResults");
 
             migrationBuilder.DropTable(
                 name: "Homeworks");
@@ -607,7 +642,10 @@ namespace AOS.Migrations
                 name: "TicketFiles");
 
             migrationBuilder.DropTable(
-                name: "ExamActions");
+                name: "ExamResulFiles");
+
+            migrationBuilder.DropTable(
+                name: "UserTickets");
 
             migrationBuilder.DropTable(
                 name: "HomeworkFiles");
@@ -616,7 +654,7 @@ namespace AOS.Migrations
                 name: "Materials");
 
             migrationBuilder.DropTable(
-                name: "Exams");
+                name: "ExamActions");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
@@ -626,6 +664,9 @@ namespace AOS.Migrations
 
             migrationBuilder.DropTable(
                 name: "Subjects");
+
+            migrationBuilder.DropTable(
+                name: "Exams");
         }
     }
 }
